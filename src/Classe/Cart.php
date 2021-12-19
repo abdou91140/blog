@@ -3,7 +3,8 @@
 namespace App\Classe;
 
 use App\Entity\Carrier;
-use App\Entity\Product;
+use App\Entity\Post;
+use App\Entity\Subscription;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -22,7 +23,7 @@ class Cart
     {
         $cart = $this->session->get('cart', []);
 
-        if (!empty($cart[$id])) {
+        if ($cart[$id] = 0) {
             $cart[$id]++;
         } else {
             $cart[$id] = 1;
@@ -50,18 +51,6 @@ class Cart
         return $this->session->set('cart', $cart);
     }
 
-    public function decrease($id)
-    {
-        $cart = $this->session->get('cart', []);
-
-        if ($cart[$id] > 1) {
-            $cart[$id]--;
-        } else {
-            unset($cart[$id]);
-        }
-
-        return $this->session->set('cart', $cart);
-    }
 
     public function getFull()
     {
@@ -69,17 +58,21 @@ class Cart
 
         if ($this->get()) {
             foreach ($this->get() as $id => $quantity) {
-                $product_object = $this->entityManager->getRepository(Product::class)->findOneById($id);
+                $post_object = $this->entityManager->getRepository(Post::class)->findOneById($id);
+                $sub_object = $this->entityManager->getRepository(Subscription::class)->findOneById($id);
 
-                if (!$product_object) {
-                    $this->delete($id);
-                    continue;
+                if (!$sub_object) {
+                    $cartComplete[] = ['sub' => null,
+                        'posts' => $post_object,
+                        'quantity' => $quantity];
+                } else {
+                    $cartComplete[] = [
+                        'sub' => $sub_object,
+                        'post' => null,
+                        'quantity' => $quantity
+                    ];
                 }
 
-                $cartComplete[] = [
-                    'product' => $product_object,
-                    'quantity' => $quantity
-                ];
             }
         }
 

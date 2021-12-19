@@ -46,20 +46,26 @@ class User implements UserInterface
      */
     private $lastname;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Address::class, mappedBy="user")
-     */
-    private $addresses;
 
     /**
      * @ORM\OneToMany(targetEntity=Order::class, mappedBy="user")
      */
     private $orders;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="author", orphanRemoval=true)
+     */
+    private $posts;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Subscription::class, inversedBy="users", cascade={"persist","remove"}))
+     */
+    private $status;
+
     public function __construct()
     {
-        $this->addresses = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->posts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,36 +175,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Address[]
-     */
-    public function getAddresses(): Collection
-    {
-        return $this->addresses;
-    }
-
-    public function addAddress(Address $address): self
-    {
-        if (!$this->addresses->contains($address)) {
-            $this->addresses[] = $address;
-            $address->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAddress(Address $address): self
-    {
-        if ($this->addresses->contains($address)) {
-            $this->addresses->removeElement($address);
-            // set the owning side to null (unless already changed)
-            if ($address->getUser() === $this) {
-                $address->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Order[]
@@ -227,6 +203,48 @@ class User implements UserInterface
                 $order->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Post[]
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): self
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts[] = $post;
+            $post->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(Post $post): self
+    {
+        if ($this->posts->removeElement($post)) {
+            // set the owning side to null (unless already changed)
+            if ($post->getAuthor() === $this) {
+                $post->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getStatus(): ?subscription
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?subscription $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

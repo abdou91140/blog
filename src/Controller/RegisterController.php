@@ -16,7 +16,8 @@ class RegisterController extends AbstractController
 {
     private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager) {
+    public function __construct(EntityManagerInterface $entityManager)
+    {
         $this->entityManager = $entityManager;
     }
 
@@ -25,7 +26,6 @@ class RegisterController extends AbstractController
      */
     public function index(Request $request, UserPasswordEncoderInterface $encoder)
     {
-        $headers = $this->entityManager->getRepository(Header::class)->findAll();
         $notification = null;
 
         $user = new User();
@@ -39,18 +39,11 @@ class RegisterController extends AbstractController
             $search_email = $this->entityManager->getRepository(User::class)->findOneByEmail($user->getEmail());
 
             if (!$search_email) {
-                $password = $encoder->encodePassword($user,$user->getPassword());
-
+                $password = $encoder->encodePassword($user, $user->getPassword());
                 $user->setPassword($password);
-
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
-
-                $mail = new Mail();
-                $content = "Bonjour ".$user->getFirstname()."<br/>Bienvenue sur la première boutique dédiée au made in France.<br><br/>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam expedita fugiat ipsa magnam mollitia optio voluptas! Alias, aliquid dicta ducimus exercitationem facilis, incidunt magni, minus natus nihil odio quos sunt?";
-                $mail->send($user->getEmail(), $user->getFirstname(), 'Bienvenue sur La Boutique Française', $content);
-
-                $notification = "Votre inscription s'est correctement déroulée. Vous pouvez dès à présent vous connecter à votre compte.";
+                return $this->redirectToRoute('app_login');
             } else {
                 $notification = "L'email que vous avez renseigné existe déjà.";
             }
@@ -59,7 +52,6 @@ class RegisterController extends AbstractController
         return $this->render('register/index.html.twig', [
             'form' => $form->createView(),
             'notification' => $notification,
-            'headers' => $headers
         ]);
     }
 }

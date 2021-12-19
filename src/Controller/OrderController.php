@@ -26,10 +26,6 @@ class OrderController extends AbstractController
      */
     public function index(Cart $cart, Request $request)
     {
-        if (!$this->getUser()->getAddresses()->getValues())
-        {
-            return $this->redirectToRoute('account_address_add');
-        }
 
         $form = $this->createForm(OrderType::class, null, [
             'user' => $this->getUser()
@@ -54,19 +50,6 @@ class OrderController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $date = new \DateTime();
-            $carriers = $form->get('carriers')->getData();
-
-            $delivery = $form->get('addresses')->getData();
-            $delivery_content = $delivery->getFirstname().' '.$delivery->getLastname();
-            $delivery_content .= '<br/>'.$delivery->getPhone();
-
-            if ($delivery->getCompany()) {
-                $delivery_content .= '<br/>'.$delivery->getCompany();
-            }
-
-            $delivery_content .= '<br/>'.$delivery->getAddress();
-            $delivery_content .= '<br/>'.$delivery->getPostal().' '.$delivery->getCity();
-            $delivery_content .= '<br/>'.$delivery->getCountry();
 
             // Enregistrer ma commande Order()
             $order = new Order();
@@ -74,30 +57,34 @@ class OrderController extends AbstractController
             $order->setReference($reference);
             $order->setUser($this->getUser());
             $order->setCreatedAt($date);
-            $order->setCarrierName($carriers->getName());
-            $order->setCarrierPrice($carriers->getPrice());
-            $order->setDelivery($delivery_content);
-            $order->setState(0);
 
             $this->entityManager->persist($order);
 
             // Enregistrer mes produits OrderDetails()
-            foreach ($cart->getFull() as $product) {
+            foreach ($cart->getFull() as $post) {
                 $orderDetails = new OrderDetails();
                 $orderDetails->setMyOrder($order);
-                $orderDetails->setProduct($product['product']->getName());
-                $orderDetails->setQuantity($product['quantity']);
-                $orderDetails->setPrice($product['product']->getPrice());
-                $orderDetails->setTotal($product['product']->getPrice() * $product['quantity']);
-                $this->entityManager->persist($orderDetails);
+                if($post['sub']){
+                    $orderDetails->setPrice($post['sub']->getPrice());
+                    $orderDetails->setName('Premium');
+                    $orderDetails->setQuantity($post['quantity']);
+                    $orderDetails->setTotal($post['sub']->getPrice() * $post['quantity']);
+                    $this->entityManager->persist($orderDetails);
+
+                }else{
+                    $orderDetails->setName($post['posts']->getTitle());
+                    $orderDetails->setQuantity($post['quantity']);
+                    $orderDetails->setPrice($post['posts']->getPrice());
+                    $orderDetails->setTotal($post['posts']->getPrice() * $post['quantity']);
+                    $this->entityManager->persist($orderDetails);
+                }
+
             }
 
             $this->entityManager->flush();
 
             return $this->render('order/add.html.twig', [
                 'cart' => $cart->getFull(),
-                'carrier' => $carriers,
-                'delivery' => $delivery_content,
                 'reference' => $order->getReference()
             ]);
         }

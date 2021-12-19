@@ -21,7 +21,7 @@ class AccountOrderController extends AbstractController
      */
     public function index()
     {
-        $orders = $this->entityManager->getRepository(Order::class)->findSuccessOrders($this->getUser());
+        $orders = $this->entityManager->getRepository(Order::class)->findByUser($this->getUser());
 
         return $this->render('account/order.html.twig', [
             'orders' => $orders

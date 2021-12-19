@@ -24,10 +24,9 @@ class OrderDetails
     private $myOrder;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string")
      */
-    private $product;
-
+    private $name;
     /**
      * @ORM\Column(type="integer")
      */
@@ -43,10 +42,6 @@ class OrderDetails
      */
     private $total;
 
-    public function __toString()
-    {
-        return $this->getProduct().' x'.$this->getQuantity();
-    }
 
     public function getId(): ?int
     {
@@ -65,17 +60,6 @@ class OrderDetails
         return $this;
     }
 
-    public function getProduct(): ?string
-    {
-        return $this->product;
-    }
-
-    public function setProduct(string $product): self
-    {
-        $this->product = $product;
-
-        return $this;
-    }
 
     public function getQuantity(): ?int
     {
@@ -111,5 +95,21 @@ class OrderDetails
         $this->total = $total;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
     }
 }

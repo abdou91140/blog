@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un nouvelle article{% endblock %}
+
+{% block content %}
+    <h1 class="display-1 mt-5 mb-5">Créer un nouvelle article</h1>
+
+    {{ include('admin/_form.html.twig') }}
+
+    <a href="{{ path('admin_index') }}">Retour liste</a>
+{% endblock %}

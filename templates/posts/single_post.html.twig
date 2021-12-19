@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article{% endblock %}
+
+{% block content %}
+    <h1 class="display-1 mt-5">Article</h1>
+    <hr class="my-4"/>
+    <div class="d-inline-block">
+        <h2>{{ post.title }}</h2>
+        {% if post.premium %}
+        <i class="premium-name" style="color: goldenrod">Premium</i>
+        {% endif %}
+    </div>
+    <blockquote>De {{ post.author.firstname }} {{ post.author.lastname }}</blockquote>
+    <hr>
+    <div class="row">
+        <div class="col-md-5">
+            <img src="{{ post.illustration }}" alt="{{ post.title }}" class="img-fluid">
+        </div>
+        <div class="col-md-7 my-auto">
+            <p>
+                {{ post.description }}
+            </p>
+            {% if post.premium %}
+                <a href="{{ path('add_to_cart', {'id': post.id }) }}">
+                    <button class="btn btn-success">Ajouté au panier</button>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

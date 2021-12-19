@@ -32,21 +32,6 @@ class Order
     private $createdAt;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $carrierName;
-
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $carrierPrice;
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $delivery;
-
-    /**
      * @ORM\OneToMany(targetEntity=OrderDetails::class, mappedBy="myOrder")
      */
     private $orderDetails;
@@ -61,10 +46,6 @@ class Order
      */
     private $stripeSessionId;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $state;
 
     public function __construct()
     {
@@ -75,8 +56,8 @@ class Order
     {
         $total = null;
 
-        foreach ($this->getOrderDetails()->getValues() as $product) {
-            $total = $total + ($product->getPrice() * $product->getQuantity());
+        foreach ($this->getOrderDetails()->getValues() as $post) {
+            $total = $total + ($post->getPrice() * $post->getQuantity());
         }
 
         return $total;
@@ -111,41 +92,6 @@ class Order
         return $this;
     }
 
-    public function getCarrierName(): ?string
-    {
-        return $this->carrierName;
-    }
-
-    public function setCarrierName(string $carrierName): self
-    {
-        $this->carrierName = $carrierName;
-
-        return $this;
-    }
-
-    public function getCarrierPrice(): ?float
-    {
-        return $this->carrierPrice;
-    }
-
-    public function setCarrierPrice(float $carrierPrice): self
-    {
-        $this->carrierPrice = $carrierPrice;
-
-        return $this;
-    }
-
-    public function getDelivery(): ?string
-    {
-        return $this->delivery;
-    }
-
-    public function setDelivery(string $delivery): self
-    {
-        $this->delivery = $delivery;
-
-        return $this;
-    }
 
     /**
      * @return Collection|OrderDetails[]
@@ -202,15 +148,4 @@ class Order
         return $this;
     }
 
-    public function getState(): ?int
-    {
-        return $this->state;
-    }
-
-    public function setState(int $state): self
-    {
-        $this->state = $state;
-
-        return $this;
-    }
 }

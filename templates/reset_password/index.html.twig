@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mot de passe oublié - La Boutique Française{% endblock %}
+{% block title %}Mot de passe oublié{% endblock %}
 
 {% block content %}
+    <h1 class="display-1 mt-5">Mot de passe oublié</h1>
+    <hr>
     <div class="block-small">
         {% for message in app.flashes('notice') %}
             <div class="alert alert-info">{{ message }}</div>
@@ -10,7 +12,8 @@
         <form method="post">
             <h1 class="h3 mb-3 font-weight-normal">Réinitialiser mon mot de passe</h1>
             <label for="inputEmail">Votre email</label>
-            <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Votre adresse email" required autofocus>
+            <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Votre adresse email"
+                   required autofocus>
 
             <button class="btn btn-lg btn-info btn-block mt-3" type="submit">
                 Valider

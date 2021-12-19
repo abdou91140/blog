@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article{% endblock %}
+
+{% block content %}
+    <h1 class="display-1 mt-5 mb-5">Article</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Premium</th>
+                <td>{% if post.premium  %}Oui{% else %}Non{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ post.title }}</td>
+            </tr>
+            <tr>
+                <th>Illustration</th>
+                <td><img src="{{ post.illustration }}"></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ post.description }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ post.price }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_index') }}">Retour liste</a>
+
+    <a href="{{ path('admin_edit', {'id': post.id}) }}">Modifier</a>
+
+    {{ include('admin/_delete_form.html.twig') }}
+{% endblock %}

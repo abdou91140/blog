@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listes des articles {% endblock %}
+{% block content %}
+    <h1 class="display-1 mt-5 mb-5">Liste des articles</h1>
+    <div class="d-flex justify-content-center">{{ knp_pagination_render(pagination,'posts/pagination.html.twig') }}</div>
+
+    {% for post in pagination %}
+        {% if not post.premium %}
+                <div class=" px-4 px-lg-5">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                <!-- Post preview-->
+                <div class="post-preview">
+           <h2>{{ post.title }}</h2>
+                <p class="post-meta">
+                    Publié par
+                    <span>{{ post.author.firstname }} {{ post.author.lastname }}</span>
+                    {# at {{ post.createAt ? post.createAt|date('Y-m-d H:i:s') : '' }} #}
+                </p>
+                <a class="" href="{{ path('post', {'id': post.id}) }}">
+                    <button class="btn  btn-success mt-3">Plus de
+                        détails...
+                    </button>
+                </a>
+                </div>
+                </div>
+                </div>
+            <hr>
+        {% else %}
+
+            <div class=" px-4 px-lg-5 " {% if is_granted('IS_IMPERSONATOR') %} style="filter: blur(5px);pointer-events: none"{% endif%} >
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <!-- Post preview-->
+                    <div class="post-preview">
+                        <h2>{{ post.title }}</h2>
+                        <p class="post-meta">
+                            Publié par
+                            <span>{{ post.author.firstname }} {{ post.author.lastname }}</span>
+                            {# at {{ post.createAt ? post.createAt|date('Y-m-d H:i:s') : '' }} #}
+                        </p>
+                        <a   class="disabled" href="{{ path('post', {'id': post.id}) }}">
+                            <button  class="btn btn-success mt-3 ">Plus de
+                                détails...
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

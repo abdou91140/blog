@@ -2,13 +2,13 @@
 
 namespace App\Classe;
 
-use Mailjet\Client;
 use Mailjet\Resources;
+use Mailjet\Client;
 
 class Mail
 {
-    private $api_key = '412749147e3b1143294ed2e62444ec02';
-    private $api_key_secret = '4f36c2c13cc6868fa1815c86dcb2e6cb';
+    private $api_key = 'bf186e98a513e17d185df294b805a2d7';
+    private $api_key_secret = 'f73298ed30ff72094be148a51d298117';
 
     public function send($to_email, $to_name, $subject, $content)
     {
@@ -17,8 +17,8 @@ class Mail
             'Messages' => [
                 [
                     'From' => [
-                        'Email' => "boutiquefrancaiseudemy@gmail.com",
-                        'Name' => "La Boutique Française"
+                        'Email' => "blogfindly@gmail.com",
+                        'Name' => "blog findly"
                     ],
                     'To' => [
                         [
@@ -26,7 +26,7 @@ class Mail
                             'Name' => $to_name
                         ]
                     ],
-                    'TemplateID' => 1763445,
+                    'TemplateID' => 3440066,
                     'TemplateLanguage' => true,
                     'Subject' => $subject,
                     'Variables' => [
@@ -36,6 +36,6 @@ class Mail
             ]
         ];
         $response = $mj->post(Resources::$Email, ['body' => $body]);
-        $response->success();
+        $response->success() && var_dump($response->getData());
     }
 }

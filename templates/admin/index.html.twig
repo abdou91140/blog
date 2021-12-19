@@ -1,0 +1,36 @@
+{% extends 'base.html.twig.' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block content %}
+    <h1 class="display-1 mt-5 mb-5">Tableau de bord</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Premium</th>
+                <th>Titre</th>
+                <th>Prix</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for post in posts %}
+            <tr>
+                <td>{% if post.premium  %}<img src="{{ asset('assets/img/valide.png') }}" style="max-height: 20px">{% endif %}</td>
+                <td>{{ post.title }}</td>
+                <td>{{ post.price }}</td>
+                <td>
+                    <a href="{{ path('admin_show', {'id': post.id}) }}">Voir</a>
+                    <a href="{{ path('admin_edit', {'id': post.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Pas d'article trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_new') }}">Créer nouveau</a>
+{% endblock %}
