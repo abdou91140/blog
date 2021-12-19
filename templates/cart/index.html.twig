@@ -67,7 +67,9 @@
                     </thead>
                     <tbody>
                     {% for item in cart %}
+                        {% if item.sub %}
                         {% set total = total + (item.sub.price * item.quantity) %}
+
                         <tr>
                             <td>{{ item.sub.price }}</td>
                             <td>
@@ -81,10 +83,11 @@
                                 <img src="{{ asset('assets/img/delete.png') }}" height="18px"
                                      alt="Supprimer mon produit">
                             </a></td>
-                        </tr>
+                        </tr> {% endif %}
                     {% endfor %}
                     </tbody>
                 </table>
+                <hr>
             </div>
             <div class=" mb-5">
                 <b>Nombre de produit :</b> {{ cart|length }}<br/>
@@ -92,12 +95,9 @@
                 <a href="{{ path('order') }}" class="btn btn-success btn-block mt-3">Valider mon panier</a>
             </div>
         </div>
+
     {% else %}
-        <h3>Abonnement premium</h3>
-        <a href="{{ path('cart_sub-premium') }}">
-            <div class="btn btn-dark">Premium</div>
-        </a>
-        <hr>
+
     {% endif %}
 
 {% endblock %}

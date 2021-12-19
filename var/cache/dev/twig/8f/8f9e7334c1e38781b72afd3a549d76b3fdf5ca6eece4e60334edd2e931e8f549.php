@@ -180,27 +180,32 @@ class __TwigTemplate_4b6767db636822c2d9168dd980f2c0801cbe86fe12f46977e1f104c9cce
                 </div>
                 ";
             // line 42
-            $context["total"] = ((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 42, $this->source); })()) + (twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, $context["item"], "sub", [], "any", false, false, false, 42), "price", [], "any", false, false, false, 42) * twig_get_attribute($this->env, $this->source, $context["item"], "quantity", [], "any", false, false, false, 42)));
-            // line 43
-            echo "
-                ";
+            if (twig_get_attribute($this->env, $this->source, $context["item"], "sub", [], "any", false, false, false, 42)) {
+                // line 43
+                echo "                    ";
+                $context["total"] = ((isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 43, $this->source); })()) + (twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, $context["item"], "sub", [], "any", false, false, false, 43), "price", [], "any", false, false, false, 43) * twig_get_attribute($this->env, $this->source, $context["item"], "quantity", [], "any", false, false, false, 43)));
+                // line 44
+                echo "                ";
+            }
+            // line 45
+            echo "                ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['key'], $context['item'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 45
+        // line 46
         echo "            </div>
 
             <hr>
             <strong>Total : </strong> ";
-        // line 48
-        echo twig_escape_filter($this->env, twig_number_format_filter($this->env, (isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 48, $this->source); })()), 2, ",", "."), "html", null, true);
+        // line 49
+        echo twig_escape_filter($this->env, twig_number_format_filter($this->env, (isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 49, $this->source); })()), 2, ",", "."), "html", null, true);
         echo " €<br/>
             <hr>
             <a class=\"btn btn-success btn-block mt-3\" id=\"checkout-button\">Payer
                 | ";
-        // line 51
-        echo twig_escape_filter($this->env, twig_number_format_filter($this->env, (isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 51, $this->source); })()), 2, ",", "."), "html", null, true);
+        // line 52
+        echo twig_escape_filter($this->env, twig_number_format_filter($this->env, (isset($context["total"]) || array_key_exists("total", $context) ? $context["total"] : (function () { throw new RuntimeError('Variable "total" does not exist.', 52, $this->source); })()), 2, ",", "."), "html", null, true);
         echo " €</a>
         </div>
     </div>
@@ -213,7 +218,7 @@ class __TwigTemplate_4b6767db636822c2d9168dd980f2c0801cbe86fe12f46977e1f104c9cce
 
     }
 
-    // line 56
+    // line 57
     public function block_script($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -223,14 +228,14 @@ class __TwigTemplate_4b6767db636822c2d9168dd980f2c0801cbe86fe12f46977e1f104c9cce
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "script"));
 
-        // line 57
+        // line 58
         echo "        <script type=\"text/javascript\">
             var stripe = Stripe(\"pk_test_51K72nMK2QiohVyzPIoZYfOiBP6Wc1ZTqNk4mUagEW13587ZMMpmcgfzdGd9Pxq5HIKbgD0ptSMaFlqyOhqPgwyDP00OXHqWJhI\");
             var checkoutButton = document.getElementById(\"checkout-button\");
             checkoutButton.addEventListener(\"click\", function () {
                 fetch(\"/commande/create-session/";
-        // line 61
-        echo twig_escape_filter($this->env, (isset($context["reference"]) || array_key_exists("reference", $context) ? $context["reference"] : (function () { throw new RuntimeError('Variable "reference" does not exist.', 61, $this->source); })()), "html", null, true);
+        // line 62
+        echo twig_escape_filter($this->env, (isset($context["reference"]) || array_key_exists("reference", $context) ? $context["reference"] : (function () { throw new RuntimeError('Variable "reference" does not exist.', 62, $this->source); })()), "html", null, true);
         echo "\", {
                     method: \"POST\",
                 })
@@ -240,7 +245,7 @@ class __TwigTemplate_4b6767db636822c2d9168dd980f2c0801cbe86fe12f46977e1f104c9cce
                     .then(function (session) {
                         if (session.error == 'order') {
                             window.location.replace('";
-        // line 69
+        // line 70
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("order");
         echo "');
                         } else {
@@ -281,7 +286,7 @@ class __TwigTemplate_4b6767db636822c2d9168dd980f2c0801cbe86fe12f46977e1f104c9cce
 
     public function getDebugInfo()
     {
-        return array (  244 => 69,  233 => 61,  227 => 57,  217 => 56,  203 => 51,  197 => 48,  192 => 45,  185 => 43,  183 => 42,  170 => 35,  167 => 34,  165 => 33,  159 => 30,  151 => 27,  147 => 26,  139 => 23,  131 => 21,  128 => 20,  123 => 19,  121 => 18,  111 => 10,  101 => 9,  82 => 7,  71 => 4,  61 => 3,  38 => 1,);
+        return array (  249 => 70,  238 => 62,  232 => 58,  222 => 57,  208 => 52,  202 => 49,  197 => 46,  191 => 45,  188 => 44,  185 => 43,  183 => 42,  170 => 35,  167 => 34,  165 => 33,  159 => 30,  151 => 27,  147 => 26,  139 => 23,  131 => 21,  128 => 20,  123 => 19,  121 => 18,  111 => 10,  101 => 9,  82 => 7,  71 => 4,  61 => 3,  38 => 1,);
     }
 
     public function getSourceContext()
@@ -327,8 +332,9 @@ class __TwigTemplate_4b6767db636822c2d9168dd980f2c0801cbe86fe12f46977e1f104c9cce
                 <div class=\"col-8 my-auto\">
                     Premium
                 </div>
-                {% set total = total + (item.sub.price * item.quantity) %}
-
+                {% if item.sub %}
+                    {% set total = total + (item.sub.price * item.quantity) %}
+                {% endif %}
                 {% endfor %}
             </div>
 

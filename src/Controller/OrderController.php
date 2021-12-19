@@ -72,10 +72,10 @@ class OrderController extends AbstractController
                     $this->entityManager->persist($orderDetails);
 
                 }else{
-                    $orderDetails->setName($post['posts']->getTitle());
+                    $orderDetails->setName($post['post']->getTitle());
                     $orderDetails->setQuantity($post['quantity']);
-                    $orderDetails->setPrice($post['posts']->getPrice());
-                    $orderDetails->setTotal($post['posts']->getPrice() * $post['quantity']);
+                    $orderDetails->setPrice($post['post']->getPrice());
+                    $orderDetails->setTotal($post['post']->getPrice() * $post['quantity']);
                     $this->entityManager->persist($orderDetails);
                 }
 

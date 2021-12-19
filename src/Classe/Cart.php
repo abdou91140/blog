@@ -63,7 +63,7 @@ class Cart
 
                 if (!$sub_object) {
                     $cartComplete[] = ['sub' => null,
-                        'posts' => $post_object,
+                        'post' => $post_object,
                         'quantity' => $quantity];
                 } else {
                     $cartComplete[] = [

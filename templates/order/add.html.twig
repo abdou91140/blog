@@ -39,8 +39,9 @@
                 <div class="col-8 my-auto">
                     Premium
                 </div>
-                {% set total = total + (item.sub.price * item.quantity) %}
-
+                {% if item.sub %}
+                    {% set total = total + (item.sub.price * item.quantity) %}
+                {% endif %}
                 {% endfor %}
             </div>
 
